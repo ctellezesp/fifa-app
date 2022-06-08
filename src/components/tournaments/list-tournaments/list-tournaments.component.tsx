@@ -66,17 +66,11 @@ const ListTournamentsComponent: FC = (): JSX.Element => {
 
 	const handleDelete = async (tournament: Tournament) => {
 		const deletedItem = await deleteTournamentItem(tournament.id as string);
-		console.log({
-			deletedItem,
-		});
 		if (deletedItem) {
 			deleteTournament(tournament.id as string);
 			const newTournaments = tournamentsDisplay.filter(
 				(tournamentItem: Tournament) => tournamentItem.id !== tournament.id
 			);
-			console.log({
-				newTournaments,
-			});
 			setTournaments(newTournaments);
 			enqueueSnackbar(`${tournament.name} deleted`, {
 				variant: 'warning',

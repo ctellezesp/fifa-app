@@ -19,10 +19,12 @@ import {
 	DialogContent,
 	DialogContentText,
 	Button,
+	Divider,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { orderBy, sortBy } from 'lodash';
 
 import { ITable, TableHeader } from '../../../models/table.model';
@@ -41,20 +43,32 @@ const TableComponent: FC<ITable> = ({
 		open: false,
 		item: null,
 	});
+	const [search, setSearch] = useState<string>('');
 
 	const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
 		const { value } = event.currentTarget;
-		const searchValues = value.toLowerCase();
+		console.log({
+			value,
+		});
+		setSearch(value);
+	};
+
+	const doSearch = (): void => {
 		const filtered = data.filter((item) =>
-			item[searchField].toLowerCase().includes(searchValues)
+			item[searchField].toLowerCase().includes(search.toLowerCase())
 		);
 		setDisplay(orderBy(filtered, sortByField));
+	};
+
+	const cleanSearch = (): void => {
+		setDisplay(orderBy(data, sortByField));
+		setSearch('');
 	};
 
 	useEffect(() => {
 		setDisplay(orderBy(data, sortByField));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data]);
+	}, [data.length]);
 
 	const handleModal = (row: any) => {
 		setModal({
@@ -82,7 +96,6 @@ const TableComponent: FC<ITable> = ({
 			<TableContainer component={Paper}>
 				<Stack spacing={1}>
 					<Paper
-						component="form"
 						sx={{
 							p: '2px 4px',
 							display: 'flex',
@@ -94,15 +107,23 @@ const TableComponent: FC<ITable> = ({
 							sx={{ ml: 1, flex: 1 }}
 							placeholder="Search here..."
 							inputProps={{ 'aria-label': 'search' }}
+							value={search}
 							onChange={handleSearch}
 						/>
 						<IconButton
-							type="submit"
 							sx={{ p: '10px' }}
 							aria-label="search"
-							disabled
+							onClick={doSearch}
 						>
 							<SearchIcon />
+						</IconButton>
+						<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+						<IconButton
+							sx={{ p: '10px' }}
+							aria-label="cancel"
+							onClick={cleanSearch}
+						>
+							<CancelIcon />
 						</IconButton>
 					</Paper>
 					<Table sx={{ width: '100%' }} aria-label="table">
@@ -165,6 +186,17 @@ const TableComponent: FC<ITable> = ({
 										)}
 									</TableRow>
 								))}
+							{display.length === 0 && (
+								<TableRow sx={{ padding: '10px' }}>
+									<TableCell
+										colSpan={actions ? headers.length + 1 : headers.length}
+									>
+										<Typography variant="body1" align="center">
+											No items found
+										</Typography>
+									</TableCell>
+								</TableRow>
+							)}
 						</TableBody>
 					</Table>
 				</Stack>

@@ -5,6 +5,8 @@ import { SnackbarProvider } from 'notistack';
 import TournamentItemComponent from './components/tournaments/tournament-item/tournament-item.component';
 import HomeComponent from './components/home/home.component';
 import ListTournamentsComponent from './components/tournaments/list-tournaments/list-tournaments.component';
+import ListTeamsComponent from './components/teams/list-teams/list-teams.component';
+import TeamItemComponent from './components/teams/team-item/team-item.component';
 
 const App: React.FC = (): JSX.Element => {
 	return (
@@ -18,6 +20,8 @@ const App: React.FC = (): JSX.Element => {
 						component={ListTournamentsComponent}
 					/>
 					<Route path="/tournaments/item" component={TournamentItemComponent} />
+					<Route path="/teams" exact component={ListTeamsComponent} />
+					<Route path="/teams/item" component={TeamItemComponent} />
 				</Switch>
 			</SnackbarProvider>
 		</BrowserRouter>

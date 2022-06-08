@@ -9,72 +9,59 @@ import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
 import { parse as getQueries } from 'query-string';
 
-import { Tournament } from '../../../models/tournament.model';
 import ViewerComponent from '../../commons/viewer/viewer.component';
-import {
-	addTournamentItem,
-	updateTournamentItem,
-} from '../../../services/tournaments.service';
 import { AppContext } from '../../../context/app.context';
+import { Team } from '../../../models/team.model';
+import { addTeamItem, updateTeamItem } from '../../../services/teams.service';
 
-const tournamentSchema = Yup.object().shape({
-	name: Yup.string().required('Name is required!'),
-	season: Yup.string()
-		.required('Season is required!')
-		.matches(/^[0-9-]{4,9}/),
-	image: Yup.string().required('Image is required!').url(),
-	identifier: Yup.string(),
+const teamSchema = Yup.object().shape({
+	country: Yup.string().required('Name is required!'),
+	abr: Yup.string(),
+	img: Yup.string().required('Image is required!').url(),
+	shield_url: Yup.string().url(),
 });
 
-const TournamentItemComponent: FC = (): JSX.Element => {
+const TeamItemComponent: FC = (): JSX.Element => {
 	const location = useLocation();
 	const history = useHistory();
-	const { addTournament, getTournament, editTournament } =
-		useContext(AppContext);
+	const { addTeam, getTeam, editTeam } = useContext(AppContext);
 	const { enqueueSnackbar } = useSnackbar();
 
-	const { mode, tournamentId } = getQueries(location.search);
-
-	const getTournamentItem = (tournament_id: string): Tournament => {
-		return getTournament(tournament_id) as Tournament;
-	};
+	const { mode, teamId } = getQueries(location.search);
 
 	return (
 		<ViewerComponent>
 			<Stack spacing={2}>
 				<Typography variant="h4" align="center">
-					{mode === 'edit' ? 'Edit Tournament' : 'Add Tournament'}
+					{mode === 'edit' ? 'Edit Team' : 'Add Team'}
 				</Typography>
 				<Formik
 					initialValues={
-						tournamentId
-							? getTournamentItem(tournamentId as string)
+						teamId
+							? (getTeam(teamId as string) as Team)
 							: {
-									name: '',
-									season: '',
-									image: '',
-									identifier: '',
+									country: '',
+									abr: '',
+									img: '',
+									shield_url: '',
 							  }
 					}
-					validationSchema={tournamentSchema}
-					onSubmit={async (values: Tournament, { setSubmitting }) => {
+					validationSchema={teamSchema}
+					onSubmit={async (values: Team, { setSubmitting }) => {
 						setSubmitting(true);
 						if (mode === 'edit') {
-							const tournamentEditResponse = await updateTournamentItem(
-								tournamentId as string,
+							const teamEditResponse = await updateTeamItem(
+								teamId as string,
 								values
 							);
-							if (tournamentEditResponse) {
-								editTournament(
-									tournamentEditResponse.id,
-									tournamentEditResponse
-								);
-								enqueueSnackbar(`${tournamentEditResponse.name} edited`, {
+							if (teamEditResponse) {
+								editTeam(teamEditResponse.id, teamEditResponse);
+								enqueueSnackbar(`${teamEditResponse.country} edited`, {
 									variant: 'success',
 									resumeHideDuration: 3000,
 									anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
 								});
-								history.push('/tournaments');
+								history.push('/teams');
 							} else {
 								enqueueSnackbar(`An error ocurrer`, {
 									variant: 'error',
@@ -83,16 +70,16 @@ const TournamentItemComponent: FC = (): JSX.Element => {
 								});
 							}
 						} else {
-							const tournamentResponse = await addTournamentItem(values);
+							const teamResponse = await addTeamItem(values);
 							setSubmitting(false);
-							if (tournamentResponse) {
-								addTournament(tournamentResponse);
-								enqueueSnackbar(`${tournamentResponse.name} added`, {
+							if (teamResponse) {
+								addTeam(teamResponse);
+								enqueueSnackbar(`${teamResponse.country} added`, {
 									variant: 'success',
 									resumeHideDuration: 3000,
 									anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
 								});
-								history.push('/tournaments');
+								history.push('/teams');
 							} else {
 								enqueueSnackbar(`An error ocurrer`, {
 									variant: 'error',
@@ -123,68 +110,68 @@ const TournamentItemComponent: FC = (): JSX.Element => {
 										<Stack spacing={2}>
 											<TextField
 												fullWidth
-												name="name"
+												name="country"
 												variant="outlined"
 												onChange={handleChange}
-												label="Name"
-												onBlur={() => setFieldTouched('name')}
-												defaultValue={values.name}
+												label="Country name"
+												onBlur={() => setFieldTouched('country')}
+												defaultValue={values.country}
 												helperText={
-													touched.name &&
-													errors.name && (
+													touched.country &&
+													errors.country && (
 														<Typography variant="caption" color="error">
-															{errors.name}
+															{errors.country}
 														</Typography>
 													)
 												}
 											/>
 											<TextField
 												fullWidth
-												name="identifier"
+												name="abr"
 												variant="outlined"
 												onChange={handleChange}
-												label="Identifier"
-												onBlur={() => setFieldTouched('identifier')}
-												defaultValue={values.identifier}
+												label="Abreviation"
+												onBlur={() => setFieldTouched('abr')}
+												defaultValue={values.abr}
 												helperText={
-													touched.identifier &&
-													errors.identifier && (
+													touched.abr &&
+													errors.abr && (
 														<Typography variant="caption" color="error">
-															{errors.identifier}
+															{errors.abr}
 														</Typography>
 													)
 												}
 											/>
 											<TextField
 												fullWidth
-												name="season"
+												name="img"
 												variant="outlined"
 												onChange={handleChange}
-												label="Season"
-												onBlur={() => setFieldTouched('season')}
-												defaultValue={values.season}
+												label="Flag url"
+												onBlur={() => setFieldTouched('img')}
+												defaultValue={values.img}
 												helperText={
-													touched.season &&
-													errors.season && (
+													touched.img &&
+													errors.img && (
 														<Typography variant="caption" color="error">
-															{errors.season}
+															{errors.img}
 														</Typography>
 													)
 												}
 											/>
 											<TextField
 												fullWidth
-												name="image"
+												name="shield_url"
 												variant="outlined"
 												onChange={handleChange}
-												label="Image"
-												onBlur={() => setFieldTouched('image')}
-												defaultValue={values.image}
+												label="Shield url"
+												onBlur={() => setFieldTouched('shield_url')}
+												defaultValue={values.shield_url}
 												helperText={
-													touched.image &&
-													errors.image && (
+													touched.shield_url &&
+													errors.shield_url && (
 														<Typography variant="caption" color="error">
-															{errors.image}
+															{errors.shield_url}
 														</Typography>
 													)
 												}
@@ -203,14 +190,24 @@ const TournamentItemComponent: FC = (): JSX.Element => {
 									</form>
 								</Grid>
 								<Grid item xs={2}>
-									{values.image && (
-										<img
-											alt={values.name}
-											src={values.image}
-											width="90%"
-											height="auto"
-										/>
-									)}
+									<Stack spacing={2}>
+										{values.img && (
+											<img
+												alt={values.country}
+												src={values.img}
+												width="90%"
+												height="auto"
+											/>
+										)}
+										{values.shield_url && (
+											<img
+												alt={values.country}
+												src={values.shield_url}
+												width="90%"
+												height="auto"
+											/>
+										)}
+									</Stack>
 								</Grid>
 							</Grid>
 						);
@@ -221,4 +218,4 @@ const TournamentItemComponent: FC = (): JSX.Element => {
 	);
 };
 
-export default TournamentItemComponent;
+export default TeamItemComponent;
