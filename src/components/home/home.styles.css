@@ -1,0 +1,30 @@
+.leagues-scroll {
+	display: -webkit-box;
+	flex-direction: row;
+	overflow-x: scroll;
+	margin-top: 20px;
+	width: 100%;
+}
+
+.league-img-scroll {
+	height: 40px;
+	width: 40px;
+}
+
+.scroll-item {
+	display: flex;
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
+	margin: 0 10px;
+	background-color: #f1f2f4;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+	.leagues-scroll {
+		display: -webkit-inline-box;
+	}
+}

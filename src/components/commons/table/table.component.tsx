@@ -118,7 +118,7 @@ const TableComponent: FC<ITable> = ({
 							{display.length > 0 &&
 								display.map((row: any) => (
 									<TableRow
-										key={row.name}
+										key={row.id}
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										{headers.map((header: TableHeader) => (
