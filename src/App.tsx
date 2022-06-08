@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
+import TournamentItemComponent from './components/tournaments/tournament-item/tournament-item.component';
+import HomeComponent from './components/home/home.component';
+import ListTournamentsComponent from './components/tournaments/list-tournaments/list-tournaments.component';
+
+const App: React.FC = (): JSX.Element => {
+	return (
+		<BrowserRouter>
+			<SnackbarProvider maxSnack={3}>
+				<Switch>
+					<Route path="/" exact component={HomeComponent} />
+					<Route
+						path="/tournaments"
+						exact
+						component={ListTournamentsComponent}
+					/>
+					<Route path="/tournaments/item" component={TournamentItemComponent} />
+				</Switch>
+			</SnackbarProvider>
+		</BrowserRouter>
+	);
+};
 
 export default App;
