@@ -23,6 +23,10 @@
 	cursor: pointer;
 }
 
+.active-tournament {
+  background-color: rgb(137, 186, 246) !important;
+}
+
 @media screen and (max-width: 500px) {
 	.leagues-scroll {
 		display: -webkit-inline-box;

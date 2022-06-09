@@ -47,9 +47,6 @@ const TableComponent: FC<ITable> = ({
 
 	const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
 		const { value } = event.currentTarget;
-		console.log({
-			value,
-		});
 		setSearch(value);
 	};
 
@@ -143,7 +140,7 @@ const TableComponent: FC<ITable> = ({
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										{headers.map((header: TableHeader) => (
-											<TableCell>
+											<TableCell key={`${row.id}@${header.value}`}>
 												{header.type === 'text' ? (
 													<Typography variant="body2">
 														{row[header.value]}
