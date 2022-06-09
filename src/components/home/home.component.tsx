@@ -20,7 +20,6 @@ import { orderBy } from 'lodash';
 import { AppContext } from '../../context/app.context';
 import { Tournament } from '../../models/tournament.model';
 import SpinnerComponent from '../commons/spinner/spinner.component';
-import { FAKE_TOURNAMENT } from '../../constants/tournaments.constants';
 
 import LeaguesScrollComponent from '../commons/leagues-scroll/leagues-scroll.component';
 import { IMatch } from '../../models/match.model';
@@ -59,9 +58,7 @@ const HomeComponent: FC = (): JSX.Element => {
 	const [allMatches, setAllMatches] = useState<IMatch[]>([]);
 	const [matchesDisplay, setMatchesDisplay] = useState<IMatch[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [state, setState] = useState({
-		tournament: FAKE_TOURNAMENT,
-	});
+	const [activeTournament, setTournament] = useState<Tournament | null>(null);
 	const [matchModal, setMatchModal] = useState<IMatchModal>({
 		open: false,
 		match: FAKE_MATCH,
@@ -124,10 +121,7 @@ const HomeComponent: FC = (): JSX.Element => {
 			(matchItem: IMatch) => matchItem.tournamentId === tournament.id
 		);
 		setMatchesDisplay(filtered);
-		setState({
-			...state,
-			tournament,
-		});
+		setTournament(tournament);
 	};
 
 	const handleClickMatch = (match: IMatch): void => {
@@ -153,12 +147,19 @@ const HomeComponent: FC = (): JSX.Element => {
 				handleTournament={handleTournament}
 			/>
 			<Stack direction="row" justifyContent="center" sx={{ margin: '10px 0' }}>
-				{state.tournament && (
+				{activeTournament ? (
 					<Paper sx={{ padding: '10px' }}>
 						<Typography variant="h6" align="center">
-							{`${state?.tournament?.name} ${state?.tournament?.season}`}
+							{`${activeTournament?.name} ${activeTournament?.season}`}
 						</Typography>
 					</Paper>
+				) : (
+					<img
+						src="https://pngimg.com/uploads/fifa/fifa_PNG7.png"
+						alt="FIFA"
+						width="50%"
+						height="auto"
+					/>
 				)}
 			</Stack>
 			<Box sx={boxMatchesStyles}>
@@ -171,7 +172,7 @@ const HomeComponent: FC = (): JSX.Element => {
 						/>
 					))}
 			</Box>
-			{!matchesDisplay.length && (
+			{!matchesDisplay.length && activeTournament && (
 				<Typography variant="body1" align="center" color="white">
 					No matches found
 				</Typography>

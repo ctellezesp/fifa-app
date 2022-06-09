@@ -60,10 +60,10 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 						spacing={1}
 						sx={{ padding: '10px' }}
 					>
-						<Typography variant="body1" align="center">
+						<Typography variant="body1" align="right">
 							{format(fromUnixTime(match.date), 'dd/MMM/yy')}
 						</Typography>
-						<Typography variant="body1" align="center">
+						<Typography variant="body1" align="right">
 							{match.title}
 						</Typography>
 					</Stack>

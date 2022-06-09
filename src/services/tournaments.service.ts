@@ -2,6 +2,7 @@ import { db } from '../client/index';
 import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite';
 import { showError } from '../utils/error.util';
 import { Tournament } from '../models/tournament.model';
+import { DEFAULT_TOURNAMENTS } from '../constants/tournaments.constants';
 
 const collectionName = 'tournaments';
 
@@ -11,7 +12,7 @@ export const getTournamentsItems = async () => {
   try {
     const tournamentsItemsSnapshot = (await getDocs(collectionRef)).docs;
     const tournamentItems: Tournament[] = tournamentsItemsSnapshot.map(item => ({ id: item.ref.id, ...item.data() }))  as Tournament[];
-    return tournamentItems;
+    return [...tournamentItems, ...DEFAULT_TOURNAMENTS];
   } catch (err) {
     showError(err);
     return null;
