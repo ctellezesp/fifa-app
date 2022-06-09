@@ -39,6 +39,7 @@ const boxMatchesStyles = {
 	display: 'grid',
 	gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
 	gap: '10px',
+	padding: '0 10px',
 };
 
 const Transition = React.forwardRef(function Transition(

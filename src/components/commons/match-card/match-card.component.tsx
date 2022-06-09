@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Paper, Grid, Typography, Avatar, Stack, Divider } from '@mui/material';
+import { Paper, Grid, Typography, Avatar, Stack } from '@mui/material';
 import { fromUnixTime, format } from 'date-fns';
 
 import { IMatch } from '../../../models/match.model';
@@ -68,11 +68,11 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 						</Typography>
 					</Stack>
 				</Grid>
-				<Grid item xs={12}>
+				{/* <Grid item xs={12}>
 					<Typography variant="body1" align="center">
 						{match.stadium}
 					</Typography>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		</Paper>
 	);

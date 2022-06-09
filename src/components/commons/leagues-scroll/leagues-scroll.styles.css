@@ -24,7 +24,7 @@
 }
 
 .active-tournament {
-  background-color: rgb(137, 186, 246) !important;
+  background-color: #b5b6ba !important;
 }
 
 @media screen and (max-width: 500px) {

@@ -24,8 +24,9 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { orderBy, sortBy } from 'lodash';
+import { orderBy } from 'lodash';
 
 import { ITable, TableHeader } from '../../../models/table.model';
 
@@ -38,7 +39,8 @@ const TableComponent: FC<ITable> = ({
 	handleEdit,
 	handleDelete,
 }): JSX.Element => {
-	const [display, setDisplay] = useState<any[]>(sortBy(data, sortByField));
+	const [orderType, setOrderType] = useState<'asc' | 'desc'>('desc');
+	const [display, setDisplay] = useState<any[]>(data);
 	const [modal, setModal] = useState({
 		open: false,
 		item: null,
@@ -54,16 +56,16 @@ const TableComponent: FC<ITable> = ({
 		const filtered = data.filter((item) =>
 			item[searchField].toLowerCase().includes(search.toLowerCase())
 		);
-		setDisplay(orderBy(filtered, sortByField));
+		setDisplay(filtered);
 	};
 
 	const cleanSearch = (): void => {
-		setDisplay(orderBy(data, sortByField));
+		setDisplay(data);
 		setSearch('');
 	};
 
 	useEffect(() => {
-		setDisplay(orderBy(data, sortByField));
+		setDisplay(data);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data.length]);
 
@@ -123,6 +125,15 @@ const TableComponent: FC<ITable> = ({
 							<CancelIcon />
 						</IconButton>
 					</Paper>
+					<Stack direction="row" justifyContent="flex-end">
+						<IconButton
+							sx={{ p: '10px' }}
+							aria-label="sort"
+							onClick={() => setOrderType(orderType === 'asc' ? 'desc' : 'asc')}
+						>
+							<FilterListIcon />
+						</IconButton>
+					</Stack>
 					<Table sx={{ width: '100%' }} aria-label="table">
 						<TableHead>
 							<TableRow>
@@ -134,7 +145,7 @@ const TableComponent: FC<ITable> = ({
 						</TableHead>
 						<TableBody>
 							{display.length > 0 &&
-								display.map((row: any) => (
+								orderBy(display, sortByField, orderType).map((row: any) => (
 									<TableRow
 										key={row.id}
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
