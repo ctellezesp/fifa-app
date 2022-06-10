@@ -29,6 +29,8 @@ import { FAKE_MATCH } from '../../constants/match.constants';
 import { matchTitleUtil } from '../../utils/match-title.util';
 import MatchTabsComponent from '../commons/match-tabs/match-tabs.component';
 import PlayerComponent from '../commons/player/player.component';
+import ViewerComponent from '../commons/viewer/viewer.component';
+import SearchBarComponent from '../commons/search-bar/search-bar.component';
 
 interface IMatchModal {
 	open: boolean;
@@ -40,6 +42,7 @@ const boxMatchesStyles = {
 	gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
 	gap: '10px',
 	padding: '0 10px',
+	marginTop: '15px',
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -139,6 +142,18 @@ const HomeComponent: FC = (): JSX.Element => {
 		});
 	};
 
+	const handleSearch = (searchValue: string) => {
+		const filtered = matchesDisplay.filter((matchItem: IMatch) => {
+			const fullTitle = matchTitleUtil(matchItem).toLowerCase();
+			return fullTitle.includes(searchValue.toLowerCase());
+		});
+		setMatchesDisplay(filtered);
+	};
+
+	const handleCancelSearch = () => {
+		handleTournament(activeTournament as Tournament);
+	};
+
 	return loading ? (
 		<SpinnerComponent />
 	) : (
@@ -148,21 +163,22 @@ const HomeComponent: FC = (): JSX.Element => {
 				handleTournament={handleTournament}
 			/>
 			<Stack direction="row" justifyContent="center" sx={{ margin: '10px 0' }}>
-				{activeTournament ? (
+				{activeTournament && (
 					<Paper sx={{ padding: '10px' }}>
 						<Typography variant="h6" align="center">
 							{`${activeTournament?.name} ${activeTournament?.season}`}
 						</Typography>
 					</Paper>
-				) : (
-					<img
-						src="https://pngimg.com/uploads/fifa/fifa_PNG7.png"
-						alt="FIFA"
-						width="50%"
-						height="auto"
-					/>
 				)}
 			</Stack>
+			{activeTournament && (
+				<ViewerComponent>
+					<SearchBarComponent
+						onSearch={handleSearch}
+						onCancel={handleCancelSearch}
+					/>
+				</ViewerComponent>
+			)}
 			<Box sx={boxMatchesStyles}>
 				{matchesDisplay.length > 0 &&
 					orderBy(matchesDisplay, 'date', 'desc').map((match: IMatch) => (

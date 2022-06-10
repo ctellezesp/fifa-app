@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import {
 	TableContainer,
@@ -12,23 +12,20 @@ import {
 	IconButton,
 	Typography,
 	Avatar,
-	InputBase,
 	Dialog,
 	DialogTitle,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	Button,
-	Divider,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { orderBy } from 'lodash';
 
 import { ITable, TableHeader } from '../../../models/table.model';
+import SearchBarComponent from '../search-bar/search-bar.component';
 
 const TableComponent: FC<ITable> = ({
 	headers,
@@ -45,23 +42,16 @@ const TableComponent: FC<ITable> = ({
 		open: false,
 		item: null,
 	});
-	const [search, setSearch] = useState<string>('');
 
-	const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
-		const { value } = event.currentTarget;
-		setSearch(value);
-	};
-
-	const doSearch = (): void => {
+	const doSearch = (searchValue: string): void => {
 		const filtered = data.filter((item) =>
-			item[searchField].toLowerCase().includes(search.toLowerCase())
+			item[searchField].toLowerCase().includes(searchValue.toLowerCase())
 		);
 		setDisplay(filtered);
 	};
 
 	const cleanSearch = (): void => {
 		setDisplay(data);
-		setSearch('');
 	};
 
 	useEffect(() => {
@@ -102,28 +92,7 @@ const TableComponent: FC<ITable> = ({
 							width: '100%',
 						}}
 					>
-						<InputBase
-							sx={{ ml: 1, flex: 1 }}
-							placeholder="Search here..."
-							inputProps={{ 'aria-label': 'search' }}
-							value={search}
-							onChange={handleSearch}
-						/>
-						<IconButton
-							sx={{ p: '10px' }}
-							aria-label="search"
-							onClick={doSearch}
-						>
-							<SearchIcon />
-						</IconButton>
-						<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-						<IconButton
-							sx={{ p: '10px' }}
-							aria-label="cancel"
-							onClick={cleanSearch}
-						>
-							<CancelIcon />
-						</IconButton>
+						<SearchBarComponent onSearch={doSearch} onCancel={cleanSearch} />
 					</Paper>
 					<Stack direction="row" justifyContent="flex-end">
 						<IconButton
@@ -168,8 +137,8 @@ const TableComponent: FC<ITable> = ({
 											<TableCell align="right">
 												<Stack
 													direction="row"
-													justifyContent="center"
-													spacing={2}
+													justifyContent="flex-end"
+													spacing={1}
 												>
 													<IconButton
 														color="primary"
