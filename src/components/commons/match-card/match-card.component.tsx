@@ -28,13 +28,13 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 				<Grid item xs={12}>
 					<Typography variant="body2">{match.title}</Typography>
 				</Grid>
-				<Grid item xs={7}>
+				<Grid item xs={8}>
 					<Stack spacing={1}>
 						<TeamInfoComponent team={match.home as Team} />
 						<TeamInfoComponent team={match.away as Team} />
 					</Stack>
 				</Grid>
-				<Grid item xs={5}>
+				<Grid item xs={4}>
 					<Stack
 						direction="column"
 						justifyContent="center"
@@ -50,11 +50,6 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 						</Typography>
 					</Stack>
 				</Grid>
-				{/* <Grid item xs={12}>
-					<Typography variant="body1" align="center">
-						{match.stadium}
-					</Typography>
-				</Grid> */}
 			</Grid>
 		</Paper>
 	);

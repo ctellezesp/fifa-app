@@ -6,9 +6,9 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import { orderBy } from 'lodash';
 
 import { Tournament } from '../../../models/tournament.model';
-import './leagues-scroll.styles.css';
 import { FAKE_TOURNAMENT } from '../../../constants/tournaments.constants';
 import { SortBy } from '../../../models/sort-by.model';
+import './leagues-scroll.styles.css';
 
 interface LeaguesScrollProps {
 	tournaments: Tournament[];
