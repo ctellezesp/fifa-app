@@ -1,9 +1,11 @@
 import { FC } from 'react';
 
-import { Paper, Grid, Typography, Avatar, Stack } from '@mui/material';
+import { Paper, Grid, Typography, Stack } from '@mui/material';
 import { fromUnixTime, format } from 'date-fns';
 
 import { IMatch } from '../../../models/match.model';
+import TeamInfoComponent from './team-info.component';
+import { Team } from '../../../models/team.model';
 
 interface MatchCardProps {
 	match: IMatch;
@@ -14,9 +16,6 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 	match,
 	handleClick,
 }): JSX.Element => {
-	const FALLBACK_LOGO =
-		'https://ruizhealytimes.com/wp-content/uploads/2015/05/fifa.png';
-
 	const matchDate: Date = fromUnixTime(match.date);
 
 	return (
@@ -31,30 +30,8 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 				</Grid>
 				<Grid item xs={7}>
 					<Stack spacing={1}>
-						<Stack
-							direction="row"
-							justifyContent="flex-start"
-							alignItems="center"
-							spacing={1}
-						>
-							<Avatar
-								src={match.home?.img || match.home?.shield_url || FALLBACK_LOGO}
-								alt={match.home?.country}
-							/>
-							<Typography variant="body1">{match.home?.country}</Typography>
-						</Stack>
-						<Stack
-							direction="row"
-							justifyContent="flex-start"
-							alignItems="center"
-							spacing={1}
-						>
-							<Avatar
-								src={match.away?.img || match.away?.shield_url || FALLBACK_LOGO}
-								alt={match.away?.country}
-							/>
-							<Typography variant="body1">{match.away?.country}</Typography>
-						</Stack>
+						<TeamInfoComponent team={match.home as Team} />
+						<TeamInfoComponent team={match.away as Team} />
 					</Stack>
 				</Grid>
 				<Grid item xs={5}>
