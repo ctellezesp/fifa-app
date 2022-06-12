@@ -17,6 +17,8 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 	const FALLBACK_LOGO =
 		'https://ruizhealytimes.com/wp-content/uploads/2015/05/fifa.png';
 
+	const matchDate: Date = fromUnixTime(match.date);
+
 	return (
 		<Paper
 			elevation={2}
@@ -24,6 +26,9 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 			onClick={() => handleClick(match)}
 		>
 			<Grid container spacing={1}>
+				<Grid item xs={12}>
+					<Typography variant="body2">{match.title}</Typography>
+				</Grid>
 				<Grid item xs={7}>
 					<Stack spacing={1}>
 						<Stack
@@ -61,10 +66,10 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 						sx={{ padding: '10px' }}
 					>
 						<Typography variant="body1" align="right">
-							{format(fromUnixTime(match.date), 'dd/MMM/yy')}
+							{format(matchDate, 'dd/MMM/yy')}
 						</Typography>
 						<Typography variant="body1" align="right">
-							{match.title}
+							{format(matchDate, 'h:mm a')}
 						</Typography>
 					</Stack>
 				</Grid>

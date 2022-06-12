@@ -327,7 +327,7 @@ const MatchItemComponent: FC = (): JSX.Element => {
 														value={stream.label || ''}
 													/>
 												</Grid>
-												<Grid item xs={12} md={8}>
+												<Grid item xs={10} md={8}>
 													<TextField
 														fullWidth
 														name="frame"
@@ -342,7 +342,7 @@ const MatchItemComponent: FC = (): JSX.Element => {
 														value={stream.frame || ''}
 													/>
 												</Grid>
-												<Grid item xs={12} md={1}>
+												<Grid item xs={2} md={1}>
 													<IconButton
 														aria-label="deleteFrame"
 														color="error"
