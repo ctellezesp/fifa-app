@@ -1,10 +1,14 @@
 import { FC, useState } from 'react';
 
+import IconButton from '@mui/material/IconButton';
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+
 import { orderBy } from 'lodash';
 
 import { Tournament } from '../../../models/tournament.model';
 import './leagues-scroll.styles.css';
 import { FAKE_TOURNAMENT } from '../../../constants/tournaments.constants';
+import { SortBy } from '../../../models/sort-by.model';
 
 interface LeaguesScrollProps {
 	tournaments: Tournament[];
@@ -18,14 +22,28 @@ const LeaguesScrollComponent: FC<LeaguesScrollProps> = ({
 	const [activeTournament, setActiveTournament] =
 		useState<Tournament>(FAKE_TOURNAMENT);
 
+	const [sortBy, setSortBy] = useState<SortBy>('asc');
+
 	const onClickTournament = (tournament: Tournament): void => {
 		setActiveTournament(tournament);
 		handleTournament(tournament);
 	};
 
+	const toggleSortBy = () => {
+		setSortBy(sortBy === 'asc' ? 'desc' : 'asc');
+	};
+
 	return (
 		<div className="leagues-scroll">
-			{orderBy(tournaments, 'season').map((tournament: Tournament) => (
+			<IconButton
+				aria-label="sort"
+				color="info"
+				sx={{ display: 'flex', placeItems: 'center', position: 'sticky' }}
+				onClick={toggleSortBy}
+			>
+				<SortByAlphaIcon />
+			</IconButton>
+			{orderBy(tournaments, 'season', sortBy).map((tournament: Tournament) => (
 				<div
 					key={tournament.id}
 					className={`scroll-item MuiPaper-elevation6 ${

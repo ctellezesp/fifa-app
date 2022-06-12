@@ -172,7 +172,7 @@ const HomeComponent: FC = (): JSX.Element => {
 				)}
 			</Stack>
 			{activeTournament && (
-				<ViewerComponent>
+				<ViewerComponent paddingSize="2px">
 					<SearchBarComponent
 						onSearch={handleSearch}
 						onCancel={handleCancelSearch}

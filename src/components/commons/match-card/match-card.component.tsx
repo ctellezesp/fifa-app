@@ -69,7 +69,7 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 							{format(matchDate, 'dd/MMM/yy')}
 						</Typography>
 						<Typography variant="body1" align="right">
-							{format(matchDate, 'h:mm a')}
+							{format(matchDate, 'H:mm')}
 						</Typography>
 					</Stack>
 				</Grid>

@@ -28,6 +28,9 @@ const MatchTabsComponent: FC<MatchTabsProps> = ({ streams }): JSX.Element => {
 						sx={{ padding: '0px' }}
 						onChange={handleChange}
 						aria-label="options"
+						variant="scrollable"
+						scrollButtons="auto"
+						allowScrollButtonsMobile
 					>
 						{streams.map((stream: MatchStream, index: number) => (
 							<Tab

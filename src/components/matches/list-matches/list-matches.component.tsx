@@ -76,7 +76,7 @@ const ListMatchesComponent: FC = (): JSX.Element => {
 		return matches.map((matchItem: IMatch) => ({
 			...matchItem,
 			full_title: matchTitleUtil(matchItem),
-			date_format: format(fromUnixTime(matchItem.date), 'yyyy-MM-dd'),
+			date_format: format(fromUnixTime(matchItem.date), 'yyyy-MM-dd H:mm'),
 		}));
 	};
 
