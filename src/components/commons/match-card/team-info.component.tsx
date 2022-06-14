@@ -26,9 +26,13 @@ const TeamInfo: FC<TeamInfoProps> = ({ team }): JSX.Element => {
 				src={img || shield_url || FALLBACK_LOGO}
 				alt={country}
 				imgProps={{ onLoad: () => setLoaded(true) }}
-				sx={{ display: loaded ? 'block' : 'none' }}
+				sx={{ display: loaded ? 'flex' : 'none' }}
 			/>
-			{!loaded && <Skeleton variant="circular" width={40} height={40} />}
+			{!loaded && (
+				<Skeleton variant="circular" sx={{ margin: 0, padding: 0 }}>
+					<Avatar />
+				</Skeleton>
+			)}
 			<Typography variant="body1">{country}</Typography>
 		</Stack>
 	);

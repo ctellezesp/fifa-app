@@ -68,6 +68,7 @@ const MatchItemComponent: FC = (): JSX.Element => {
 		fetchTournaments,
 		getTournament,
 		getTeam,
+		setTournament,
 	} = useContext(AppContext);
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -184,6 +185,7 @@ const MatchItemComponent: FC = (): JSX.Element => {
 							}
 							setSubmitting(false);
 						}
+						setTournament(values.tournamentId);
 					}}
 				>
 					{(props) => {

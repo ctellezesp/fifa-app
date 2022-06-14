@@ -24,6 +24,8 @@ interface IAppContext {
 	editMatch: (matchId: string, match: IMatch) => void;
 	getMatch: (matchId: string) => IMatch | undefined;
 	deleteMatch: (matchId: string) => void;
+	selectedTournament: string;
+	setTournament: (tournament_id: string) => void;
 }
 
 interface IAppContextState {
@@ -51,6 +53,8 @@ export const AppContext = createContext<IAppContext>({
 	editMatch: (matchId: string, match: IMatch) => null,
 	getMatch: (matchId: string) => undefined,
 	deleteMatch: (matchId: string) => null,
+	selectedTournament: '',
+	setTournament: (tournament_id: string) => null,
 });
 
 export const AppContextProvider: FC<ComponentType> = ({ children }) => {
@@ -64,6 +68,7 @@ export const AppContextProvider: FC<ComponentType> = ({ children }) => {
 	const [mapTournaments, setMapTournaments] = useState<Map<string, Tournament>>(
 		new Map()
 	);
+	const [selectedTournament, setSelectedTournament] = useState<string>('');
 
 	// TOURNAMENTS
 
@@ -110,6 +115,9 @@ export const AppContextProvider: FC<ComponentType> = ({ children }) => {
 			),
 		}));
 	};
+
+	const setTournament = (tournament_id: string): void =>
+		setSelectedTournament(tournament_id);
 
 	// TEAMS
 
@@ -220,6 +228,8 @@ export const AppContextProvider: FC<ComponentType> = ({ children }) => {
 				editMatch,
 				getMatch,
 				deleteMatch,
+				selectedTournament,
+				setTournament,
 			}}
 		>
 			{children}

@@ -2,7 +2,6 @@
 	display: -webkit-box;
 	flex-direction: row;
 	overflow-x: scroll;
-	margin-top: 20px;
 	width: 100%;
 }
 

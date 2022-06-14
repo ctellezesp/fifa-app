@@ -34,6 +34,7 @@ const DashboardComponent: FC = (): JSX.Element => {
 			<Stack spacing={2} justifyContent="center">
 				{sortBy(routes, 'label').map((route: DashboardItem) => (
 					<Paper
+						key={route.route}
 						sx={{ padding: '10px', cursor: 'pointer' }}
 						onClick={() => history.push(route.route)}
 					>

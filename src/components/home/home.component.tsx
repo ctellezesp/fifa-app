@@ -55,8 +55,14 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const HomeComponent: FC = (): JSX.Element => {
-	const { fetchTournaments, matches, fetchMatches, fetchTeams, tournaments } =
-		useContext(AppContext);
+	const {
+		fetchTournaments,
+		matches,
+		fetchMatches,
+		fetchTeams,
+		tournaments,
+		setTournament: setAppTournament,
+	} = useContext(AppContext);
 
 	const [tournamentsDisplay, setTournaments] = useState<Tournament[]>([]);
 	const [allMatches, setAllMatches] = useState<IMatch[]>([]);
@@ -117,6 +123,11 @@ const HomeComponent: FC = (): JSX.Element => {
 			}
 		};
 		retrieveMatches();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		setAppTournament('');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

@@ -40,6 +40,8 @@ const ListMatchesComponent: FC = (): JSX.Element => {
 		fetchTournaments,
 		fetchTeams,
 		tournaments,
+		selectedTournament,
+		getTournament,
 	} = useContext(AppContext);
 
 	const { enqueueSnackbar } = useSnackbar();
@@ -71,6 +73,14 @@ const ListMatchesComponent: FC = (): JSX.Element => {
 		retrieveMatches();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (selectedTournament) {
+			const currentTournament = getTournament(selectedTournament) as Tournament;
+			filterMatchesByLeague(currentTournament, allMatches);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [allMatches]);
 
 	const formatingMatchesForTable = (matches: IMatch[]): any[] => {
 		return matches.map((matchItem: IMatch) => ({
