@@ -345,13 +345,19 @@ const MatchItemComponent: FC = (): JSX.Element => {
 													/>
 												</Grid>
 												<Grid item xs={2} md={1}>
-													<IconButton
-														aria-label="deleteFrame"
-														color="error"
-														onClick={() => deleteStream(index)}
+													<Stack
+														direction="row"
+														justifyContent="center"
+														alignItems="center"
 													>
-														<DeleteIcon />
-													</IconButton>
+														<IconButton
+															aria-label="deleteFrame"
+															color="error"
+															onClick={() => deleteStream(index)}
+														>
+															<DeleteIcon />
+														</IconButton>
+													</Stack>
 												</Grid>
 											</Grid>
 										))}

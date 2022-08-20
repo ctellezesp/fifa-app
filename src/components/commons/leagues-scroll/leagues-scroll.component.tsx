@@ -22,7 +22,7 @@ const LeaguesScrollComponent: FC<LeaguesScrollProps> = ({
 	const { setTournament, selectedTournament, getTournament } =
 		useContext(AppContext);
 
-	const [sortBy, setSortBy] = useState<SortBy>('asc');
+	const [sortBy, setSortBy] = useState<SortBy>('desc');
 
 	const onClickTournament = (tournament: Tournament): void => {
 		setActiveTournament(tournament);

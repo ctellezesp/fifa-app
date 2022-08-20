@@ -2,17 +2,20 @@ import { FC, memo, useState } from 'react';
 
 import { Stack, Avatar, Typography, Skeleton } from '@mui/material';
 
-import { Team } from '../../../models/team.model';
-
 interface TeamInfoProps {
-	team: Team;
+	img: string;
+	shield_url: string;
+	country: string;
 }
 
 const FALLBACK_LOGO =
 	'https://ruizhealytimes.com/wp-content/uploads/2015/05/fifa.png';
 
-const TeamInfo: FC<TeamInfoProps> = ({ team }): JSX.Element => {
-	const { img, shield_url, country } = team;
+const TeamInfo: FC<TeamInfoProps> = ({
+	img,
+	shield_url,
+	country,
+}): JSX.Element => {
 	const [loaded, setLoaded] = useState<boolean>(false);
 
 	return (

@@ -5,7 +5,6 @@ import { fromUnixTime, format } from 'date-fns';
 
 import { IMatch } from '../../../models/match.model';
 import TeamInfoComponent from './team-info.component';
-import { Team } from '../../../models/team.model';
 
 interface MatchCardProps {
 	match: IMatch;
@@ -30,8 +29,16 @@ const MatchCardComponent: FC<MatchCardProps> = ({
 				</Grid>
 				<Grid item xs={8}>
 					<Stack spacing={1}>
-						<TeamInfoComponent team={match.home as Team} />
-						<TeamInfoComponent team={match.away as Team} />
+						<TeamInfoComponent
+							img={match.home?.img || ''}
+							shield_url={match.home?.shield_url || ''}
+							country={match.home?.country || ''}
+						/>
+						<TeamInfoComponent
+							img={match.away?.img || ''}
+							shield_url={match.away?.shield_url || ''}
+							country={match.away?.country || ''}
+						/>
 					</Stack>
 				</Grid>
 				<Grid item xs={4}>
